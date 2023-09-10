@@ -1,7 +1,13 @@
 import "./App.css";
+import Card from "./component/pages/Card";
+import MainPage from "./component/pages/MainPage";
 
 function App() {
-  return <div className="bg-red-400">Test</div>;
+  return (
+    <main>
+      <MainPage />
+    </main>
+  );
 }
 
 export default App;
