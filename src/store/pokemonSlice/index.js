@@ -6,14 +6,12 @@ export const fecthPokemon = createAsyncThunk(
   async (setUrl) => {
     const response = await axios.get("https://pokeapi.co/api/v2/pokemon/");
     setUrl(response.data.results);
-    console.log("res", response);
   }
 );
 export const fecthPokemonList = createAsyncThunk(
   "pokemon/fecthPokemonList",
   async (url) => {
     const response = await axios.get(`${url}`);
-    console.log("res", response);
   }
 );
 

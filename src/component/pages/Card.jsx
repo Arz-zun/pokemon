@@ -1,14 +1,20 @@
 import React, { useEffect, useState } from "react";
 import PokemonDetailModal from "./PokemonDetailModal";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addToTeam, removeFromTeam } from "../../store/myTeamSlice";
+import { deleteIcon, favblack, favyellow } from "../assets";
+import toast from "react-hot-toast";
+import { useLocation } from "react-router-dom";
 
 const Card = ({ pokemon, loading }) => {
   const [infoPokemon, setInfoPokemon] = useState();
   const [openModal, setOpenModal] = useState(false);
   const [selectedPokemon, setSelectedPokemon] = useState([]);
-  const maxSelection = 6; // Maximum number of Pokemon that can be selected
-
+  const myteam = useSelector((state) => state.myteam.myTeamList);
+  console.log(myteam?.length);
+  const maxSelection = 6 - myteam?.length; // Maximum number of Pokemon that can be selected
+  const params = useLocation();
+  const { pathname } = params;
   function capitalizeFirstLetter(string) {
     return string?.charAt(0)?.toUpperCase() + string?.slice(1);
   }
@@ -20,7 +26,7 @@ const Card = ({ pokemon, loading }) => {
     setSelectedPokemon([]);
   };
 
-  const handleRemoveFromFavorite = (poke) => {
+  const handleRemoveFromTeam = (poke) => {
     dispatch(removeFromTeam(poke));
   };
   function capitalizeFirstLetter(string) {
@@ -33,9 +39,10 @@ const Card = ({ pokemon, loading }) => {
     } else if (selectedPokemon.length < maxSelection) {
       // Add the Pokémon to the selected list if not exceeding the limit
       setSelectedPokemon([...selectedPokemon, poke]);
+    } else if (selectedPokemon.length >= maxSelection) {
+      toast.error("You cannot add more than 6 pokemon in team");
     }
   };
-  console.log("selectedPokemon", selectedPokemon);
   return (
     <>
       {/* Modal for pokemon details */}
@@ -92,14 +99,23 @@ const Card = ({ pokemon, loading }) => {
               key={index}
               onClick={() => setInfoPokemon(item)}
             >
-              <button
-                onClick={() => toggleSelectedPokemon(item)}
-                className="bg-red-500 z-40"
-              >
-                {selectedPokemon.find((p) => p.id === item.id)
-                  ? "Remove from Selection"
-                  : "Add to Selection"}
-              </button>
+              {pathname == "/myteam" ? (
+                <button onClick={() => handleRemoveFromTeam(item)}>
+                  <img src={deleteIcon} className="w-5 ml-2" />
+                </button>
+              ) : (
+                <button
+                  onClick={() => toggleSelectedPokemon(item)}
+                  className=" z-40 w-8  m-1"
+                >
+                  {selectedPokemon.find((p) => p.id === item.id) ? (
+                    <img src={favyellow} className="w-5" />
+                  ) : (
+                    <img src={favblack} className="w-5" />
+                  )}
+                </button>
+              )}
+
               <div
                 onClick={() => setOpenModal(true)}
                 className="flex  items-center px-2 gap-2"

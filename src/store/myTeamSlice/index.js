@@ -2,6 +2,7 @@
 // ...
 
 import { createAction, createSlice } from "@reduxjs/toolkit";
+import toast from "react-hot-toast";
 
 export const addToTeam = createAction("myteam/addToTeam");
 export const removeFromTeam = createAction("myteam/removeFromTeam");
@@ -18,7 +19,8 @@ const pokemonSlice = createSlice({
     builder
       .addCase(addToTeam, (state, action) => {
         const pokemonToAdd = action.payload;
-        state.myTeamList.push(pokemonToAdd);
+        toast.success("Pokemon is added in your team");
+        state.myTeamList.push(...pokemonToAdd);
       })
       .addCase(removeFromTeam, (state, action) => {
         const pokemonToRemove = action.payload;

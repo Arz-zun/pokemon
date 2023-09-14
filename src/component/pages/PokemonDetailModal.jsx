@@ -27,7 +27,6 @@ const PokemonDetailModal = ({ infoPokemon, setOpenModal }) => {
       setSelectedPokemon([...selectedPokemon, poke]);
     }
   };
-  console.log("selectedPokemon", selectedPokemon);
   return (
     <div
       className={`  -translate-x-[50%] -translate-y-[50%] rounded-2xl
@@ -55,11 +54,6 @@ const PokemonDetailModal = ({ infoPokemon, setOpenModal }) => {
             src={leftArrow}
             className="w-8 cursor-pointer"
           />
-          <button onClick={() => toggleSelectedPokemon(infoPokemon)}>
-            {selectedPokemon.find((p) => p.id === infoPokemon.id)
-              ? "Remove from Selection"
-              : "Add to Selection"}
-          </button>
         </div>
         <h1 className="text-center text-xl pt-5 font-semibold">
           {" "}

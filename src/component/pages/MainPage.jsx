@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import Card from "./Card";
 import { pokeapi } from "../assets";
+import { useSelector } from "react-redux";
 const buttonName = [
   {
     name: "I",
@@ -38,11 +39,10 @@ const buttonName = [
 ];
 const MainPage = () => {
   const [pokeData, setPokeData] = useState([]);
-  const [url, setUrl] = useState(
-    "https://pokeapi.co/api/v2/pokemon?limit=1000"
-  );
+  const [url, setUrl] = useState("https://pokeapi.co/api/v2/pokemon?limit=10");
   const [nextUrl, setNextUrl] = useState();
   const [generation, setGeneration] = useState("generation-i");
+  const myTeamData = useSelector((state) => state.myteam);
   const fetchData = async (url) => {
     try {
       const response = await axios.get(url);
@@ -83,12 +83,9 @@ const MainPage = () => {
     (item) => item?.speciesData?.generation?.name === generation
   );
 
-  console.log("filter", filterData);
-
   return (
     <div className="mx-auto max-w-5xl px-5">
       <div className="flex items-center flex-col mt-5">
-        <img src={pokeapi} />
         <h1>Select Geeration:</h1>
         <div className="flex">
           <div
